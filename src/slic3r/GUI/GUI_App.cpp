@@ -986,6 +986,9 @@ bool GUI_App::on_init_inner()
             //sets window property to mainframe so other instances can indentify it
             OtherInstanceMessageHandler::init_windows_properties(mainframe, m_instance_hash_int);
 #endif //WIN32
+
+            if (app_config->get("show_hints") == "1")
+                plater_->get_notification_manager()->push_hint_notification();
         }
     });
 

@@ -1,6 +1,6 @@
 #include "NotificationManager.hpp"
 
-
+#include "HintNotification.hpp"
 #include "GUI.hpp"
 #include "ImGuiWrapper.hpp"
 #include "PrintHostDialogs.hpp"
@@ -257,6 +257,9 @@ void NotificationManager::PopNotification::count_lines()
 	std::string text		= m_text1;
 	size_t      last_end	= 0;
 	m_lines_count			= 0;
+
+	if (text.empty())
+		return;
 
 	m_endlines.clear();
 	while (last_end < text.length() - 1)
@@ -1328,6 +1331,15 @@ void NotificationManager::upload_job_notification_show_error(int id, const std::
 			}
 		}
 	}
+}
+void NotificationManager::push_hint_notification()
+{
+	for (std::unique_ptr<PopNotification>& notification : m_pop_notifications) {
+		if (notification->get_type() == NotificationType::DidYouKnowHint)
+			return;
+	}
+	NotificationData data{ NotificationType::DidYouKnowHint, NotificationLevel::RegularNotification, 0, "" };
+	push_notification_data(std::make_unique<NotificationManager::HintNotification>(data, m_id_provider, m_evt_handler), 0);
 }
 bool NotificationManager::push_notification_data(const NotificationData& notification_data, int timestamp)
 {
