@@ -36,7 +36,7 @@ class PreferencesDialog : public DPIDialog
 #endif // ENABLE_GCODE_LINES_ID_IN_H_SLIDER
 
 public:
-	explicit PreferencesDialog(wxWindow* parent);
+	explicit PreferencesDialog(wxWindow* parent, int selected_tab = 0);
 	~PreferencesDialog() = default;
 
 	bool settings_layout_changed() const { return m_settings_layout_changed; }
@@ -45,7 +45,7 @@ public:
 	bool seq_seq_top_gcode_indices_changed() const { return m_seq_top_gcode_indices_changed; }
 #endif // ENABLE_GCODE_LINES_ID_IN_H_SLIDER
 
-	void	build();
+	void	build(size_t selected_tab = 0);
 	void	accept();
 
 protected:
