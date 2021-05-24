@@ -192,14 +192,14 @@ void GLGizmoBase::render_grabbers(float size) const
     GLShaderProgram* shader = wxGetApp().get_shader("gouraud_light");
     if (! shader)
         return;
-    shader->set_uniform("emission_factor", 0.5);
     shader->start_using();
+    shader->set_uniform("emission_factor", 0.1);
     for (int i = 0; i < (int)m_grabbers.size(); ++i)
     {
         if (m_grabbers[i].enabled)
             m_grabbers[i].render((m_hover_id == i), size);
     }
-    shader->set_uniform("emission_factor", 0);
+    shader->set_uniform("emission_factor", 0.);
     shader->stop_using();
 }
 
