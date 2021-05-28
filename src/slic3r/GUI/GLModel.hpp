@@ -27,6 +27,7 @@ namespace GUI {
 
         BoundingBoxf3 m_bounding_box;
         std::string m_filename;
+        bool m_initialized{ false };
 
     public:
         virtual ~GLModel() { reset(); }
@@ -40,6 +41,8 @@ namespace GUI {
         const BoundingBoxf3& get_bounding_box() const { return m_bounding_box; }
 
         const std::string& get_filename() const { return m_filename; }
+
+        bool is_valid() const { return m_initialized; }
 
     private:
         void send_to_gpu(const std::vector<float>& vertices, const std::vector<unsigned int>& indices);
