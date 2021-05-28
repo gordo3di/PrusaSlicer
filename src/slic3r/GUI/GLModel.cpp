@@ -115,7 +115,6 @@ void GLModel::reset()
     m_indices_count = 0;
     m_bounding_box = BoundingBoxf3();
     m_filename = std::string();
-    m_initialized = false;
 }
 
 void GLModel::render() const
@@ -153,8 +152,6 @@ void GLModel::send_to_gpu(const std::vector<float>& vertices, const std::vector<
     glsafe(::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id));
     glsafe(::glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW));
     glsafe(::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
-    m_initialized = true;
 }
 
 GLModelInitializationData stilized_arrow(int resolution, float tip_radius, float tip_height, float stem_radius, float stem_height)
