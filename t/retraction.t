@@ -60,7 +60,7 @@ use Slic3r::Test qw(_eq);
                     $lift_dist = 0;
                     $lifted = 0;
                 }
-                fail 'move Z at travel speed' if ($args->{F} // $self->F) != $conf->travel_speed * 60;
+                fail 'move Z at travel speed' if ($args->{F} // $self->F) != $conf->travel_speed_z * 60;
             }
             if ($info->{retracting}) {
                 $retracted[$tool] = 1;
