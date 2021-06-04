@@ -61,18 +61,12 @@ double string_to_double_decimal_point(const std::string& str, size_t* pos /* = n
 
 std::string float_to_string_decimal_point(double value, int precision/* = -1*/)
 {
-    assert(is_decimal_separator_point());
     std::stringstream buf;
     if (precision >= 0)
         buf << std::fixed << std::setprecision(precision);
     buf << value;
     return buf.str();
 }
-
-//std::string float_to_string_decimal_point(float value, int precision/* = -1*/)
-//{
-//    return float_to_string_decimal_point(double(value), precision);
-//}
 
 
 } // namespace Slic3r
