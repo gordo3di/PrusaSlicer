@@ -1171,7 +1171,7 @@ void GLCanvas3D::toggle_model_objects_visibility(bool visible, const ModelObject
                           || gizmo_type == GLGizmosManager::Seam
                           || gizmo_type == GLGizmosManager::MmuSegmentation)
                         && ! vol->is_modifier)
-                        vol->force_neutral_color = true;
+                        vol->is_active = false;
                     else
                         vol->force_native_color = true;
                 }

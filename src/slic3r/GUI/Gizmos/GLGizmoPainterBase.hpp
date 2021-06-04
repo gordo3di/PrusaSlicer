@@ -43,6 +43,7 @@ public:
 #endif
 
 private:
+    GLIndexedVertexArray m_iva_none;
     GLIndexedVertexArray m_iva_enforcers;
     GLIndexedVertexArray m_iva_blockers;
     std::array<GLIndexedVertexArray, 3> m_varrays;
