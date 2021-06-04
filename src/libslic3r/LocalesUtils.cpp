@@ -11,11 +11,14 @@ CNumericLocalesSetter::CNumericLocalesSetter()
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
     m_orig_numeric_locale = std::setlocale(LC_NUMERIC, nullptr);
     std::setlocale(LC_NUMERIC, "C");
-#else
+#elif __linux__
     m_original_locale = uselocale((locale_t)0);
     m_new_locale = duplocale(m_original_locale);
     m_new_locale = newlocale(LC_NUMERIC_MASK, "C", m_new_locale);
     uselocale(m_new_locale);
+#else // APPLE
+    m_original_locale = uselocale((locale_t)0);
+    m_new_locale = newlocale(LC_NUMERIC_MASK, "C", m_original_locale);
 #endif
 }
 
