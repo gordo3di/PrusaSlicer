@@ -463,7 +463,7 @@ TriangleSelector::TriangleSelector(const TriangleMesh& mesh)
 }
 
 
-void TriangleSelector::reset(const EnforcerBlockerType reset_state)
+void TriangleSelector::reset()
 {
     if (m_orig_size_indices != 0) // unless this is run from constructor
         garbage_collect();
@@ -474,11 +474,11 @@ void TriangleSelector::reset(const EnforcerBlockerType reset_state)
     for (size_t i=0; i<m_mesh->its.indices.size(); ++i) {
         const stl_triangle_vertex_indices& ind = m_mesh->its.indices[i];
         const Vec3f& normal = m_mesh->stl.facet_start[i].normal;
-        push_triangle(ind[0], ind[1], ind[2], normal, reset_state);
+        push_triangle(ind[0], ind[1], ind[2], normal);
     }
     m_orig_size_vertices = m_vertices.size();
-    m_orig_size_indices = m_triangles.size();
-    m_invalid_triangles = 0;
+    m_orig_size_indices  = m_triangles.size();
+    m_invalid_triangles  = 0;
 }
 
 
@@ -641,8 +641,8 @@ std::map<int, std::vector<bool>> TriangleSelector::serialize() const
                     serialize_recursive(tr.children[child_idx]);
             } else {
                 // In case this is leaf, we better save information about its state.
-                assert(int(tr.get_state()) <= 15);
-                if (3 <= int(tr.get_state()) && int(tr.get_state()) <= 15) {
+                assert(int(tr.get_state()) <= 16);
+                if (3 <= int(tr.get_state()) && int(tr.get_state()) <= 16) {
                     data.insert(data.end(), {true, true});
                     for (size_t bit_idx = 0; bit_idx < 4; ++bit_idx) {
                         size_t bit_mask = uint64_t(0b0001) << bit_idx;
@@ -663,9 +663,9 @@ std::map<int, std::vector<bool>> TriangleSelector::serialize() const
     return out;
 }
 
-void TriangleSelector::deserialize(const std::map<int, std::vector<bool>> data, const EnforcerBlockerType init_state)
+void TriangleSelector::deserialize(const std::map<int, std::vector<bool>> data)
 {
-    reset(init_state); // dump any current state
+    reset(); // dump any current state
     for (const auto& [triangle_id, code] : data) {
         assert(triangle_id < int(m_triangles.size()));
         assert(! code.empty());
