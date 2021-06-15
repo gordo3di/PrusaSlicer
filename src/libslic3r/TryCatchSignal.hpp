@@ -2,6 +2,9 @@
 #include <csetjmp>
 #include <utility>
 #include <array>
+#include <functional>
+
+#include <exception>
 
 namespace Slic3r { namespace detail {
 
@@ -46,12 +49,19 @@ public:
 
 } // namespace detail
 
+#ifdef _MSC_VER
+void try_catch_signal_seh(int sigcnt, const int *sigs, std::function<void()> &&fn, std::function<void()> &&cfn);
+#endif
+
 template<class TryFn, class CatchFn, int N>
 void try_catch_signal(const int (&sigs)[N], TryFn &&fn, CatchFn &&cfn)
 {
-    detail::TryCatchSignal::try_catch_signal(sigs,
-                                             std::forward<TryFn>(fn),
-                                             std::forward<CatchFn>(cfn));
+#ifdef _MSC_VER
+    try_catch_signal_seh(N, sigs, fn, cfn);
+#endif
+//    detail::TryCatchSignal::try_catch_signal(sigs,
+//                                             std::forward<TryFn>(fn),
+//                                             std::forward<CatchFn>(cfn));
 }
 
 } // namespace Slic3r
